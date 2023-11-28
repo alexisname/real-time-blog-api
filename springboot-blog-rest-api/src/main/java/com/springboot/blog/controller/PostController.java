@@ -4,7 +4,10 @@ import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@Tag(
+        name = "CRUD REST APIs for Post Resource"
+)
 public class PostController {
 
     private PostService postService;
@@ -24,6 +30,14 @@ public class PostController {
     }
 
     //create blog post
+    @Operation(
+            summary = "Create Post REST API",
+            description = "Create Post REST API is used to save post into database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
@@ -34,6 +48,14 @@ public class PostController {
     }
 
     //get all posts rest api
+    @Operation(
+            summary = "Get All Posts REST API",
+            description = "Get All Posts REST API is used to get all posts from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping
     public PostResponse getAllPosts(@RequestParam(value = "pageNo",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,required = false) int pageNo,
                                     @RequestParam(value = "pageSize",defaultValue = AppConstants.DEFAULT_PAGE_SIZE,required = false) int pageSize,
@@ -44,12 +66,28 @@ public class PostController {
     }
 
     //get post by id api
+    @Operation(
+            summary = "Get Post By ID REST API",
+            description = "Get Post By ID REST API is used to get post by id from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostbyId(@PathVariable(name="id") long id){
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
     //update post by id api
+    @Operation(
+            summary = "Update Post By ID REST API",
+            description = "Update Post By ID REST API is used to get post by id from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
@@ -61,6 +99,14 @@ public class PostController {
     }
 
     //delete post by id api
+    @Operation(
+            summary = "Delete Post By ID REST API",
+            description = "Delete Post By ID REST API is used to get post by id from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
@@ -72,6 +118,14 @@ public class PostController {
     }
 
     //Get posts by category Rest api
+    @Operation(
+            summary = "Get Post By Category ID REST API",
+            description = "Get Post By Category ID REST API is used to get post by id from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("/category/{id}")
     public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable("id") Long categoryId){
         List<PostDto> postDtos = postService.getPostsByCategory(categoryId);
