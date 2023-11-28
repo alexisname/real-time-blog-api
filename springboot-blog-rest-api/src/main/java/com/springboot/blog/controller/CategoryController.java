@@ -3,6 +3,7 @@ package com.springboot.blog.controller;
 import com.springboot.blog.model.Category;
 import com.springboot.blog.payload.CategoryDto;
 import com.springboot.blog.service.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,9 @@ public class CategoryController {
     }
 
     //build Add Category api
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
@@ -42,6 +46,9 @@ public class CategoryController {
     }
 
     //Update Category Rest api
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
@@ -50,6 +57,9 @@ public class CategoryController {
     }
 
     //Delete Category Rest api
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId){
